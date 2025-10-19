@@ -1,4 +1,4 @@
-NAME := phonebook
+NAME := app
 
 CXX := c++
 CXXFLAGS := -Wall -Wextra -Werror -std=c++98
