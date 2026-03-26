@@ -28,8 +28,8 @@ ScavTrap::~ScavTrap() {
 }
 
 void ScavTrap::attack(const std::string& target) {
-    if (hitPoints <= 0) { std::cout << "ScavTrap " << name << " is KO\n"; return; }
-    if (energyPoints <= 0) { std::cout << "ScavTrap " << name << " has no energy\n"; return; }
+    if (hitPoints == 0) { std::cout << "ScavTrap " << name << " is KO\n"; return; }
+    if (energyPoints == 0) { std::cout << "ScavTrap " << name << " has no energy\n"; return; }
     --energyPoints;
     std::cout << "ScavTrap " << name << " slashes " << target
               << " for " << attackDamage << " damage!\n";

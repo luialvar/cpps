@@ -28,15 +28,15 @@ FragTrap::~FragTrap() {
 }
 
 void FragTrap::attack(const std::string& target) {
-    if (hitPoints <= 0) { std::cout << "FragTrap " << name << " is KO\n"; return; }
-    if (energyPoints <= 0) { std::cout << "FragTrap " << name << " has no energy\n"; return; }
+    if (hitPoints == 0) { std::cout << "FragTrap " << name << " is KO\n"; return; }
+    if (energyPoints == 0) { std::cout << "FragTrap " << name << " has no energy\n"; return; }
     --energyPoints;
     std::cout << "FragTrap " << name << " blasts " << target
               << " for " << attackDamage << " damage!\n";
 }
 
 void FragTrap::highFivesGuys(void) {
-    std::cout << "FragTrap " << name << " requests high fives! ✋\n";
+    std::cout << "FragTrap " << name << " requests high fives! \n";
 }
 
 //una cosa que tengo que hacer para

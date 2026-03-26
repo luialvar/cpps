@@ -18,8 +18,8 @@ ClapTrap::ClapTrap(const ClapTrap& other)
 
 ClapTrap& ClapTrap::operator=(const ClapTrap& other) {
     if (this != &other) {
-        name         = other.name;
-        hitPoints    = other.hitPoints;
+        name = other.name;
+        hitPoints = other.hitPoints;
         energyPoints = other.energyPoints;
         attackDamage = other.attackDamage;
     }
@@ -42,11 +42,11 @@ ClapTrap::ClapTrap(const std::string& n)
 // ------------------ Acciones ------------------
 
 void ClapTrap::attack(const std::string& target) {
-    if (hitPoints <= 0) {
+    if (hitPoints == 0) {
         std::cout << "ClapTrap " << name << " can’t attack (is KO)\n";
         return;
     }
-    if (energyPoints <= 0) {
+    if (energyPoints == 0) {
         std::cout << "ClapTrap " << name << " has no energy to attack\n";
         return;
     }
@@ -56,33 +56,32 @@ void ClapTrap::attack(const std::string& target) {
 }
 
 void ClapTrap::takeDamage(unsigned int amount) {
-    if (hitPoints <= 0) {
+    if (hitPoints == 0) {
         std::cout << "ClapTrap " << name << " is already KO\n";
         return;
     }
-    int dmg = static_cast<int>(amount);
-    if (dmg >= hitPoints) {
+    if (amount >= hitPoints) {
         hitPoints = 0;
         std::cout << "ClapTrap " << name << " takes " << amount
                   << " damage and is KO!\n";
     } else {
-        hitPoints -= dmg;
+        hitPoints -= amount;
         std::cout << "ClapTrap " << name << " takes " << amount
                   << " damage, HP now " << hitPoints << "\n";
     }
 }
 
 void ClapTrap::beRepaired(unsigned int amount) {
-    if (hitPoints <= 0) {
+    if (hitPoints == 0) {
         std::cout << "ClapTrap " << name << " can’t repair (is KO)\n";
         return;
     }
-    if (energyPoints <= 0) {
+    if (energyPoints == 0) {
         std::cout << "ClapTrap " << name << " has no energy to repair\n";
         return;
     }
     --energyPoints;
-    hitPoints += static_cast<int>(amount);
+    hitPoints += amount;
     std::cout << "ClapTrap " << name << " repairs " << amount
               << ", HP now " << hitPoints << "\n";
 }
