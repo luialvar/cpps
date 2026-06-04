@@ -19,7 +19,7 @@ Contact::Contact(const std::string& first,
 : firstName(other.firstName),
   lastName(other.lastName),
   nickname(other.nickname),
-  phoneNumber(other.phoneNumber),`
+  phoneNumber(other.phoneNumber),
   darkestSecret(other.darkestSecret) {}
 Contact& Contact::operator=(const Contact& other) {
     if (this != &other) {
