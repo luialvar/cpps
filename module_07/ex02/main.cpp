@@ -2,23 +2,19 @@
 #include <iostream>
 #include <string>
 
-static void testIntArray()
-{
+static void testIntArray() {
     Array<int> numbers(5);
 
-    for (unsigned int i = 0; i < numbers.size(); i++)
-    {
-        numbers[i] = i * 10;
+    for (unsigned int i = 0; i < numbers.size(); i++) {
+        numbers[i] = static_cast<int>(i * 10);
     }
     std::cout << "numbers size: " << numbers.size() << std::endl;
-    for (unsigned int i = 0; i < numbers.size(); i++)
-    {
+    for (unsigned int i = 0; i < numbers.size(); i++) {
         std::cout << numbers[i] << std::endl;
     }
 }
 
-static void testDeepCopy()
-{
+static void testDeepCopy() {
     Array<std::string> original(2);
 
     original[0] = "original zero";
@@ -31,8 +27,7 @@ static void testDeepCopy()
     std::cout << "copy[0]: " << copy[0] << std::endl;
 }
 
-static void testAssignment()
-{
+static void testAssignment() {
     Array<int> first(3);
     Array<int> second;
 
@@ -46,37 +41,28 @@ static void testAssignment()
     std::cout << "second[1]: " << second[1] << std::endl;
 }
 
-static void testOutOfBounds()
-{
+static void testOutOfBounds() {
     Array<int> numbers(2);
 
-    try
-    {
+    try {
         std::cout << numbers[2] << std::endl;
-    }
-    catch (std::exception& e)
-    {
+    } catch (std::exception& e) {
         std::cout << "Exception: " << e.what() << std::endl;
     }
 }
 
-static void testEmptyArray()
-{
+static void testEmptyArray() {
     Array<int> empty;
 
     std::cout << "empty size: " << empty.size() << std::endl;
-    try
-    {
+    try {
         empty[0] = 1;
-    }
-    catch (std::exception& e)
-    {
+    } catch (std::exception& e) {
         std::cout << "Exception: " << e.what() << std::endl;
     }
 }
 
-int main()
-{
+int main() {
     testIntArray();
     testDeepCopy();
     testAssignment();
