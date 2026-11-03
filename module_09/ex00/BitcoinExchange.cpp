@@ -11,10 +11,12 @@ static std::string trim(const std::string& text) {
     std::size_t start = 0;
     std::size_t end = text.length();
 
-    while (start < text.length() && (text[start] == ' ' || text[start] == '\t')) {
+    while (start < text.length()
+        && (text[start] == ' ' || text[start] == '\t' || text[start] == '\r')) {
         start++;
     }
-    while (end > start && (text[end - 1] == ' ' || text[end - 1] == '\t')) {
+    while (end > start
+        && (text[end - 1] == ' ' || text[end - 1] == '\t' || text[end - 1] == '\r')) {
         end--;
     }
     return text.substr(start, end - start);
@@ -128,6 +130,9 @@ void BitcoinExchange::loadDatabase(const std::string& filename) {
             this->rates[date] = value;
         }
     }
+    if (file.bad()) {
+        throw std::runtime_error("could not read database");
+    }
     if (this->rates.empty()) {
         throw std::runtime_error("empty database");
     }
@@ -147,6 +152,9 @@ void BitcoinExchange::processInput(const std::string& filename) const {
         if (!trim(line).empty()) {
             this->processLine(line);
         }
+    }
+    if (file.bad()) {
+        throw std::runtime_error("could not read file");
     }
 }
 

@@ -24,8 +24,13 @@ private:
     std::vector<unsigned int> buildJacobsthalOrderVector(unsigned int size) const;
     std::deque<unsigned int>  buildJacobsthalOrderDeque(unsigned int size) const;
 
-    void binaryInsertVector(std::vector<int>& values, int number) const;
-    void binaryInsertDeque(std::deque<int>& values, int number) const;
+    unsigned int binaryInsertVector(std::vector<unsigned int>& chain,
+        const std::vector<int>& values, unsigned int number, unsigned int high) const;
+    unsigned int binaryInsertDeque(std::deque<unsigned int>& chain,
+        const std::deque<int>& values, unsigned int number, unsigned int high) const;
+
+    std::vector<unsigned int> sortVectorIndices(const std::vector<int>& values) const;
+    std::deque<unsigned int> sortDequeIndices(const std::deque<int>& values) const;
 
     std::vector<int> mergeInsertSortVector(const std::vector<int>& values) const;
     std::deque<int>  mergeInsertSortDeque(const std::deque<int>& values) const;

@@ -3,6 +3,7 @@
 
 // ------------------ Exceptions ------------------
 
+//remember throw is to not launch exceptions
 template <typename T>
 const char* Array<T>::OutOfBoundsException::what() const throw() {
     return "array index is out of bounds";

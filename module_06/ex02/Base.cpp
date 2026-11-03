@@ -41,6 +41,8 @@ void identify(Base* p) {
 }
 
 void identify(Base& p) {
+    //usign references if cast fails we catch the exception, if does not
+    //get a null pointer
     try {
         A& a = dynamic_cast<A&>(p);
         (void)a;

@@ -50,10 +50,12 @@ static bool hasNoFraction(double value) {
     return std::modf(value, &integerPart) == 0.0;
 }
 
+//to detect chars witen with single '
 static bool isQuotedCharLiteral(const std::string& literal) {
     return literal.length() == 3 && literal[0] == '\'' && literal[2] == '\'';
 }
 
+//digits do not count
 static bool isCharLiteral(const std::string& literal) {
     return isQuotedCharLiteral(literal)
         || (literal.length() == 1 && !isDigit(literal[0]));
@@ -131,7 +133,7 @@ static bool isDoubleLiteral(const std::string& literal) {
 
 static double pseudoLiteralToDouble(const std::string& literal) {
     if (literal == "nan" || literal == "nanf") {
-        return std::numeric_limits<double>::quiet_NaN();
+        return std::numeric_limits<double>::quiet_NaN(); //quiet to not send signals
     }
     if (literal == "+inf" || literal == "+inff") {
         return std::numeric_limits<double>::infinity();
@@ -156,11 +158,14 @@ static bool parseLiteral(const std::string& literal, double& value) {
     }
     if (isIntLiteral(literal) || isDoubleLiteral(literal) || isFloatLiteral(literal)) {
         number = literal;
-        if (isFloatLiteral(literal) && !isFloatPseudoLiteral(literal)) {
+        if (isFloatLiteral(literal) && !isFloatPseudoLiteral(literal)) { //esto quita la f
             number = literal.substr(0, literal.length() - 1);
         }
-        errno = 0;
+        errno = 0; //to set at 0 for strtod
+        //you can not cast string to numbers, so you put it into char* 
+        //and use strtod to convert to double
         value = std::strtod(number.c_str(), NULL);
+        //detects if the conversion is too long
         return !(errno == ERANGE && isInf(value));
     }
     return false;
@@ -181,6 +186,7 @@ static void printChar(double value) {
         return;
     }
     c = static_cast<char>(value);
+    //not all characters are printable
     if (!std::isprint(static_cast<unsigned char>(c))) {
         std::cout << "char: Non displayable" << std::endl;
         return;
@@ -199,7 +205,7 @@ static void printInt(double value) {
 }
 
 static void printFloatNumber(float value) {
-    std::ios::fmtflags flags = std::cout.flags();
+    std::ios::fmtflags flags = std::cout.flags(); //store cout output
     std::streamsize    precision = std::cout.precision();
 
     if (hasNoFraction(static_cast<double>(value))) {
@@ -208,7 +214,7 @@ static void printFloatNumber(float value) {
         std::cout.unsetf(std::ios::floatfield);
         std::cout << std::setprecision(7) << value;
     }
-    std::cout.flags(flags);
+    std::cout.flags(flags); //restore cout output
     std::cout.precision(precision);
 }
 
@@ -272,6 +278,7 @@ static void printDouble(double value) {
 void ScalarConverter::convert(const std::string& literal) {
     double value;
 
+    //here we check if we can identify something
     if (!parseLiteral(literal, value)) {
         printImpossibleConversions();
         return;

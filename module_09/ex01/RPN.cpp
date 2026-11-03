@@ -1,4 +1,5 @@
 #include "RPN.hpp"
+#include <climits>
 #include <sstream>
 #include <stdexcept>
 
@@ -45,14 +46,31 @@ void RPN::applyOperator(char operation) {
     left = this->numbers.top();
     this->numbers.pop();
     if (operation == '+') {
+        if ((right > 0 && left > INT_MAX - right)
+            || (right < 0 && left < INT_MIN - right)) {
+            throw std::overflow_error("integer overflow");
+        }
         this->numbers.push(left + right);
     } else if (operation == '-') {
+        if ((right > 0 && left < INT_MIN + right)
+            || (right < 0 && left > INT_MAX + right)) {
+            throw std::overflow_error("integer overflow");
+        }
         this->numbers.push(left - right);
     } else if (operation == '*') {
+        if ((left > 0 && right > 0 && left > INT_MAX / right)
+            || (left > 0 && right < 0 && right < INT_MIN / left)
+            || (left < 0 && right > 0 && left < INT_MIN / right)
+            || (left < 0 && right < 0 && left < INT_MAX / right)) {
+            throw std::overflow_error("integer overflow");
+        }
         this->numbers.push(left * right);
     } else {
         if (right == 0) {
             throw std::runtime_error("division by zero");
+        }
+        if (left == INT_MIN && right == -1) {
+            throw std::overflow_error("integer overflow");
         }
         this->numbers.push(left / right);
     }
