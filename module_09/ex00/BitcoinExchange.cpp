@@ -192,12 +192,15 @@ void BitcoinExchange::processLine(const std::string& line) const {
 }
 
 bool BitcoinExchange::getRateForDate(const std::string& date, double& rate) const {
+    //if last one, returns end
     std::map<std::string, double>::const_iterator it = this->rates.upper_bound(date);
 
     if (it == this->rates.begin()) {
         return false;
     }
     --it;
+    //it->first: la fecha.
+    //it->second: el precio
     rate = it->second;
     return true;
 }

@@ -69,6 +69,7 @@ void RPN::applyOperator(char operation) {
         if (right == 0) {
             throw std::runtime_error("division by zero");
         }
+        //-2147483648 / -1 = 2147483648
         if (left == INT_MIN && right == -1) {
             throw std::overflow_error("integer overflow");
         }
@@ -79,12 +80,12 @@ void RPN::applyOperator(char operation) {
 // ------------------ Methods ------------------
 
 int RPN::evaluate(const std::string& expression) {
+    //std::istringstream permite leer una cadena mediante >>, 
+    //igual que leerías desde std::cin, pero tomando los datos de expression
     std::istringstream stream(expression);
     std::string        token;
 
-    while (!this->numbers.empty()) {
-        this->numbers.pop();
-    }
+    //lee hasta el siguiente espacio en blanco y omite los espacios iniciales
     while (stream >> token) {
         if (isNumber(token)) {
             this->numbers.push(token[0] - '0');
